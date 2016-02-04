@@ -141,6 +141,9 @@
                                 if (angular.isString(dragImageParameters)) {
                                     dragImageParameters = $dragImage.generate(dragImageParameters);
                                 }
+                                if(dragImageParameters.config) {
+                                    dragImageParameters = $dragImage.generate(dragImageParameters.text, dragImageParameters.config);
+                                }
                                 if (dragImageParameters.image) {
                                     var xOffset = dragImageParameters.xOffset || 0,
                                         yOffset = dragImageParameters.yOffset || 0;
@@ -278,12 +281,12 @@
                 sendData = angular.fromJson(sendData);
 
                 var dropOffset = calculateDropOffset(e);
-                
+
                 var position = dropOffset ? {
                     x: dropOffset.x - sendData.offset.x,
                     y: dropOffset.y - sendData.offset.y
                 } : null;
-                
+
                 determineEffectAllowed(e);
 
                 var uiOnDropFn = $parse(attr.uiOnDrop);
@@ -293,7 +296,7 @@
                 element.removeClass(dragEnterClass);
                 dragging = 0;
             }
-            
+
             function isDragChannelAccepted(dragChannel, dropChannel) {
                 if (dropChannel === '*') {
                     return true;
@@ -388,7 +391,8 @@
     module.constant('$dragImageConfig', {
         height: 20,
         width: 200,
-        padding: 10,
+        paddingX: 10,
+        paddingY: 10,
         font: 'bold 11px Arial',
         fontColor: '#eee8d5',
         backgroundColor: '#93a1a1',
@@ -426,7 +430,7 @@
             canvas.fillStyle = config.fontColor;
 
             var title = fitString(canvas, text, config);
-            canvas.fillText(title, 4, config.padding + 4);
+            canvas.fillText(title, config.paddingX, config.paddingY);
 
             var image = new Image();
             image.src = el.toDataURL();
