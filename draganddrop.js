@@ -155,7 +155,10 @@
                         setDragElement(e, attrs.dragImageElementId);
                     }
 
-                    var offset = {x: e.originalEvent.offsetX, y: e.originalEvent.offsetY};
+                    var offset = {x: e.offsetX, y: e.offsetY};
+                    if(e.originalEvent) {
+                        offset = {x: e.originalEvent.offsetX, y: e.originalEvent.offsetY};
+                    }
                     var transferDataObject = {data: dragData, channel: sendChannel, offset: offset};
                     var transferDataText = angular.toJson(transferDataObject);
 
@@ -183,11 +186,12 @@
             var customDragLeaveEvent = $parse(attr.onDragLeave);
 
             function calculateDropOffset(e) {
-                var offset = {
-                    x: e.originalEvent.offsetX,
-                    y: e.originalEvent.offsetY
-                };
-                var target = e.originalEvent.target;
+                var offset = {x: e.offsetX, y: e.offsetY};
+                var target = e.target;
+                if(e.originalEvent) {
+                    offset = {x: e.originalEvent.offsetX, y: e.originalEvent.offsetY};
+                    target = e.originalEvent.target;
+                }
 
                 while (target !== element[0]) {
                     offset.x = offset.x + target.offsetLeft;
@@ -413,7 +417,7 @@
                 width = canvas.measureText(text + ELLIPSIS).width;
             }
             return text + ELLIPSIS;
-        }
+        }git status
 
         this.generate = function(text, options) {
             var config = angular.extend({}, defaultConfig, options || {});
