@@ -417,7 +417,7 @@
                 width = canvas.measureText(text + ELLIPSIS).width;
             }
             return text + ELLIPSIS;
-        }git status
+        }
 
         this.generate = function(text, options) {
             var config = angular.extend({}, defaultConfig, options || {});
